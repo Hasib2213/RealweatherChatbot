@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+.pytest_cache/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.log
+
+# Streamlit & FastAPI
+.streamlit/
+.streamlit/secrets.toml
+local*
+
+# Vector DB & FAISS (সবচেয়ে জরুরি!)
+data/
+faiss_index/
+index.faiss
+documents.pkl
+metadata.pkl
+*.faiss
+*.pkl
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
