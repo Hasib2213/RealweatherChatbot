@@ -2,6 +2,7 @@
 import streamlit as st
 import requests
 import time
+from datetime import datetime
 
 API_URL = "http://127.0.0.1:8000/chat"
 SESSION_ID = "default"
@@ -53,20 +54,37 @@ if submit_button and user_input:
         forecast = data.get("forecast_data")
 
         if weather:
+            temp = weather['temperature']
+            temp_min = weather.get('temp_min', temp)
+            temp_max = weather.get('temp_max', temp)
+            sunrise = weather.get('sunrise', 'N/A')
+            sunset = weather.get('sunset', 'N/A')
+
             bot_reply += (
                 f"\n\n**Current Weather:**\n"
                 f"• City: {weather['city']}, {weather['country']}\n"
                 f"• Temperature: {weather['temperature']}°C (Feels like {weather['feels_like']}°C)\n"
                 f"• Condition: {weather['description'].title()} {'☀️' if 'clear' in weather['description'].lower() else '☁️' if 'cloud' in weather['description'].lower() else '🌧️' if 'rain' in weather['description'].lower() else '❄️'}\n"
                 f"• Humidity: {weather['humidity']}%\n"
-                f"• Wind: {weather['wind_speed']} m/s"
+                f"• Wind: {weather['wind_speed']} m/s\n"
+                f"• Temp Range: {temp_min}°C - {temp_max}°C\n"
+                f".Sunrise: {sunrise} | Sunset:{sunset}"
+                f".temp_min: {temp_min}°C | temp_max: {temp_max}°C\n"
             )
 
         if forecast:
             bot_reply += "\n\n**Forecast:**\n"
             for day in forecast["forecasts"][:5]:
-                bot_reply += f"• {day['date']} → {day['temp_min']}°C - {day['temp_max']}°C, {day['description'].title()}\n"
+                date_obj = datetime.strptime(day["date"], "%Y-%m-%d")
+                pretty_date = date_obj.strftime("%b %d, %a")  # Apr 10, Thu
 
+                sunrise = day.get("sunrise", "N/A")
+                sunset = day.get("sunset", "N/A")
+
+                bot_reply += (
+                    f"• **{pretty_date}** → {day['temp_min']}°C - {day['temp_max']}°C, {day['description']}\n"
+                    f"  ↳ Sunrise {sunrise} | Sunset {sunset}\n"
+                ) 
     except Exception as e:
         bot_reply = f"Error: Could not connect to the server. {str(e)}"
 

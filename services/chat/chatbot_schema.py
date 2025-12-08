@@ -15,6 +15,11 @@ class WeatherData(BaseModel):
     wind_speed: float
     country: str
     timestamp: Optional[datetime] = None
+    #new add fields
+    temp_min: float
+    temp_max: float
+    sunrise: None
+    sunset: None
 
 class ForecastItem(BaseModel):
     date: str
@@ -22,6 +27,10 @@ class ForecastItem(BaseModel):
     temp_max: float
     
     description: str
+    #new add fields
+    sunrise:str="N/A"
+    sunset:str="N/A"
+    
     
 
 class ForecastData(BaseModel):

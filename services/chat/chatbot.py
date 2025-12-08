@@ -245,3 +245,4 @@ class WeatherChatbot:
         if self.vector_store:
             return self.vector_store.get_stats()
         return {"enabled": False}
+    
